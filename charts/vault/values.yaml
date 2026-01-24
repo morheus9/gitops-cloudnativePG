@@ -1,0 +1,42 @@
+---
+# HashiCorp Vault custom values
+# Base configuration for development/testing
+# For production, enable HA, TLS, and other security features
+
+vault:
+  # Server configuration
+  server:
+    # Enable development mode (NOT for production!)
+    dev:
+      enabled: true
+    
+    # For production, use:
+    # dev:
+    #   enabled: false
+    # ha:
+    #   enabled: true
+    #   replicas: 3
+    
+    # Service configuration
+    service:
+      type: ClusterIP
+      port: 8200
+    
+    # Resource limits
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+  
+  # UI configuration
+  ui:
+    enabled: true
+    service:
+      type: ClusterIP
+  
+  # CSI provider for Kubernetes integration (optional)
+  csi:
+    enabled: false  # Enable if needed for CSI volume mounts

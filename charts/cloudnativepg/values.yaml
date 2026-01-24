@@ -1,0 +1,30 @@
+---
+# CloudNativePG operator custom values
+# This installs only the operator, PostgreSQL clusters are created separately
+
+cloudnative-pg:
+  # Operator configuration
+  operator:
+    # Resource limits
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+
+  # Webhook configuration
+  webhook:
+    # Resource limits
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "50m"
+      limits:
+        memory: "128Mi"
+        cpu: "100m"
+
+  # Monitoring (optional)
+  monitoring:
+    enabled: false # Enable if Prometheus is available
