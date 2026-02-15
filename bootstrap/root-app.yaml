@@ -5,14 +5,14 @@ metadata:
   name: root-app
   namespace: argocd
   finalizers:
-    - argoproj.io/resources-finalizer
+  - argoproj.io/resources-finalizer
   labels:
     app.kubernetes.io/name: root-app
     app.kubernetes.io/component: application-controller
 spec:
   project: default
   source:
-    repoURL: https://github.com/morheus9/crossplane-infra
+    repoURL: https://github.com/morheus9/gitops-cloudnativePG
     targetRevision: HEAD
     path: apps
     directory:
@@ -26,7 +26,7 @@ spec:
       selfHeal: true
       allowEmpty: false
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
     retry:
       limit: 5
       backoff:

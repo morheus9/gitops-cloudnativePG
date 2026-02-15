@@ -1,0 +1,24 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: prod-db
+  namespace: database
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnativepg/postgresql:16
+
+  storage:
+    size: 5Gi
+    storageClass: standard
+
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://my-backups/
+      endpointURL: https://s3.amazonaws.com
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY
+        secretAccessKey:
+          name: s3-creds
+          key: SECRET_KEY

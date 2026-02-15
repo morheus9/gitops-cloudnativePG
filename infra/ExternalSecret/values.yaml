@@ -1,0 +1,26 @@
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+# Отключаем установку CRD (обычно они уже есть или управляются отдельно)
+installCRDs: true
+
+# Настройка вебхука
+webhook:
+  port: 9443
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# Настройка cert-controller (нужен для управления сертификатами вебхука)
+certController:
+  create: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
