@@ -9,7 +9,6 @@ resources:
 # Отключаем установку CRD (обычно они уже есть или управляются отдельно)
 installCRDs: true
 
-# Настройка вебхука
 webhook:
   port: 9443
   resources:
