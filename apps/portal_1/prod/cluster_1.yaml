@@ -4,7 +4,7 @@ metadata:
   name: myapp-db
   namespace: database
 spec:
-  instances: 3
+  instances: 1
 
   imageName: ghcr.io/cloudnative-pg/postgresql:16.2
 
@@ -14,29 +14,28 @@ spec:
 
   resources:
     requests:
-      memory: "2Gi"
+      memory: "1Gi"
       cpu: "1"
     limits:
-      memory: "4Gi"
+      memory: "2Gi"
       cpu: "2"
 
-  # Настройки сети
+  # Network Setting
   enableSuperuserAccess: false
 
-  # Настройки резервного копирования (используем VolumeSnapshot)
-  backup:
-    volumeSnapshot:
-      className: csi-hostpath-snapclass # Класс снапшотов
-    retentionPolicy: "30d" # Хранить бэкапы 30 дней
+  # Backup settings (using VolumeSnapshot)
+  # backup:
+  #   volumeSnapshot:
+  #     className: csi-hostpath-snapclass
+  #   retentionPolicy: "30d" # Keep backups for 30 days
 
   monitoring:
     enablePodMonitor: true
 
   postgresql:
     parameters:
-      shared_buffers: "512MB" # Пример настройки
+      shared_buffers: "512MB"
       max_connections: "200"
-
 #  nodeSelector:
 #    workload: postgres
 

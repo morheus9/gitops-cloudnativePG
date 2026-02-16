@@ -6,7 +6,7 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-# Отключаем установку CRD (обычно они уже есть или управляются отдельно)
+# Disable CRD installation (usually they already exist or are managed separately
 installCRDs: true
 
 webhook:
@@ -16,7 +16,7 @@ webhook:
       cpu: 50m
       memory: 64Mi
 
-# Настройка cert-controller (нужен для управления сертификатами вебхука)
+# Setting up the cert-controller (needed to manage webhook certificates
 certController:
   create: true
   resources:
