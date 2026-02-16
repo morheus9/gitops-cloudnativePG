@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: myapp-db
-  namespace: database
+  namespace: portal-1-prod
 spec:
   instances: 1
 

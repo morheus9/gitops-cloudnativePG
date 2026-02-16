@@ -1,63 +1,57 @@
 installCRDs: true
 
 extraObjects:
-# Example issuer
-- apiVersion: cert-manager.io/v1
-  kind: ClusterIssuer
-  metadata:
-    name: letsencrypt-staging
-  spec:
-    acme:
-      email: admin@example.com
-      server: https://acme-staging-v02.api.letsencrypt.org/directory
-      privateKeySecretRef:
-        name: letsencrypt-staging-key
-      solvers:
-      - http01:
-          ingress:
-            class: nginx
-# Example2 issur
-- apiVersion: cert-manager.io/v1
-  kind: ClusterIssuer
-  metadata:
-    name: letsencrypt-prod
-  spec:
-    acme:
-      email: admin@example.com
-      server: https://acme-v02.api.letsencrypt.org/directory
-      privateKeySecretRef:
-        name: letsencrypt-prod-key
-      solvers:
-      - http01:
-          ingress:
-            class: nginx
-- apiVersion: cert-manager.io/v1
-  kind: ClusterIssuer
-  metadata:
-    name: letsencrypt-prod
-  spec:
-    acme:
-      email: admin@example.com
-      server: https://acme-v02.api.letsencrypt.org/directory
-      privateKeySecretRef:
-        name: letsencrypt-prod-key
-      solvers:
-      - http01:
-          ingress:
-            class: nginx
-# Vault issuer
-- apiVersion: cert-manager.io/v1
-  kind: ClusterIssuer
-  metadata:
-    name: vault-issuer
-  spec:
-    vault:
-      server: http://vault.vault.svc:8200
-      path: /v1/pki/sign/my-role
-  auth:
-    kubernetes:
-      role: cert-manager-role
-      mountPath: /v1/auth/kubernetes
+  # Example issuer
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-staging
+    spec:
+      acme:
+        email: admin@example.com
+        server: https://acme-staging-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+          name: letsencrypt-staging-key
+        solvers:
+          - http01:
+              ingress:
+                class: nginx
+  # Example2 ClusterIssuer
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-prod
+    spec:
+      acme:
+        email: admin@example.com
+        server: https://acme-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+          name: letsencrypt-prod-key
+        solvers:
+          - http01:
+              ingress:
+                class: nginx
+  # Vault issuer
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: vault-issuer
+    spec:
+      vault:
+        server: http://vault.vault.svc:8200
+        path: pki/sign/my-role
+      auth:
+        kubernetes:
+          role: cert-manager-role
+          mountPath: auth/kubernetes
+
+  # Self-signed issuer для локального тестирования (без домена)
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: selfsigned-issuer
+    spec:
+      selfSigned: {}
 
 resources:
   requests:
@@ -89,7 +83,7 @@ cainjector:
 podDnsPolicy: "Default"
 podDnsConfig:
   options:
-  - name: single-request-reopen
+    - name: single-request-reopen
 
 prometheus:
   enabled: true

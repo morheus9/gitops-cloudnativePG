@@ -3,7 +3,7 @@ server:
     enabled: false
   ha:
     enabled: true
-    replicas: 2
+    replicas: 3  # Исправлено: должно быть 3 для достижения кворума min_quorum: 3
     raft:
       enabled: true
       setNodeId: true
