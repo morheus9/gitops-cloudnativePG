@@ -3,7 +3,7 @@ server:
     enabled: false
   ha:
     enabled: true
-    replicas: 3  # Исправлено: должно быть 3 для достижения кворума min_quorum: 3
+    replicas: 3
     raft:
       enabled: true
       setNodeId: true
@@ -32,11 +32,6 @@ server:
           cluster_address = "[::]:8201"
           tls_cert_file = "/vault/userconfig/tls-server/tls.crt"
           tls_key_file  = "/vault/userconfig/tls-server/tls.key"
-        }
-
-        seal "awskms" {
-          region     = "us-east-1"
-          kms_key_id = "alias/vault-unseal"
         }
 
         audit "file" {
@@ -69,13 +64,13 @@ server:
 
   # TLS-secret
   extraVolumes:
-  - name: tls-server
-    secret:
-      secretName: vault-tls-server
+    - name: tls-server
+      secret:
+        secretName: vault-tls-server
   extraVolumeMounts:
-  - name: tls-server
-    mountPath: /vault/userconfig/tls-server
-    readOnly: true
+    - name: tls-server
+      mountPath: /vault/userconfig/tls-server
+      readOnly: true
 
 extraEnvironmentVars:
   POD_NAME:
@@ -88,14 +83,14 @@ ui:
   ingress:
     enabled: true
     hosts:
-    - vault.local
+      - vault.local
     annotations:
       kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: my-ca-issuer
     tls:
-    - hosts:
-      - vault.local
-      secretName: vault-ui-tls
+      - hosts:
+          - vault.local
+        secretName: vault-ui-tls # cert-manager will create
 
 # Storage for Raft (each pod will receive its own PVC)
 dataStorage:

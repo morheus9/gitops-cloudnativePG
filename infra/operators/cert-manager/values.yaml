@@ -1,7 +1,7 @@
 installCRDs: true
 
 extraObjects:
-  # Example issuer
+  # Example1 ClusterIssuer
   - apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
     metadata:
@@ -13,9 +13,7 @@ extraObjects:
         privateKeySecretRef:
           name: letsencrypt-staging-key
         solvers:
-          - http01:
-              ingress:
-                class: nginx
+          - http01
   # Example2 ClusterIssuer
   - apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
@@ -31,27 +29,37 @@ extraObjects:
           - http01:
               ingress:
                 class: nginx
-  # Vault issuer
-  - apiVersion: cert-manager.io/v1
-    kind: ClusterIssuer
-    metadata:
-      name: vault-issuer
-    spec:
-      vault:
-        server: http://vault.vault.svc:8200
-        path: pki/sign/my-role
-      auth:
-        kubernetes:
-          role: cert-manager-role
-          mountPath: auth/kubernetes
-
-  # Self-signed issuer для локального тестирования (без домена)
+  # My issuer
   - apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
     metadata:
       name: selfsigned-issuer
     spec:
       selfSigned: {}
+
+  - apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: my-ca
+      namespace: cert-manager
+    spec:
+      isCA: true
+      commonName: my-ca
+      secretName: my-ca-secret # the secret of where the root CA will be stored
+      privateKey:
+        algorithm: ECDSA
+        size: 256
+      issuerRef:
+        name: selfsigned-ca-issuer
+        kind: ClusterIssuer
+
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: my-ca-issuer
+    spec:
+      ca:
+        secretName: my-ca-secret
 
 resources:
   requests:

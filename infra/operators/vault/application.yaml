@@ -6,12 +6,9 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://helm.releases.hashicorp.com
-    chart: vault
-    targetRevision: 0.32.0
-    helm:
-      valueFiles:
-      - values.yaml
+    repoURL: https://github.com/morheus9/gitops-cloudnativePG
+    targetRevision: HEAD
+    path: infra/operators/vault
   destination:
     server: https://kubernetes.default.svc
     namespace: vault
@@ -20,4 +17,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
