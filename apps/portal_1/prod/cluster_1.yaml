@@ -10,7 +10,9 @@ spec:
 
   storage:
     size: 50Gi
-    storageClass: fast-ssd
+    # For local deployment, use empty string to use default storage class
+    # For production, specify your storage class: fast-ssd, ssd, etc.
+    storageClass: ""  # Empty string uses default storage class
 
   resources:
     requests:

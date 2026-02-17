@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: infra-root
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"  # Root app - discovers operators before they deploy
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:

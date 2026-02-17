@@ -1,7 +1,8 @@
 installCRDs: true
 
 extraObjects:
-  # Example1 ClusterIssuer
+  # Let's Encrypt Staging Issuer - for testing certificates without rate limits
+  # Use this issuer for development/testing environments
   - apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
     metadata:
@@ -14,7 +15,9 @@ extraObjects:
           name: letsencrypt-staging-key
         solvers:
           - http01
-  # Example2 ClusterIssuer
+
+  # Let's Encrypt Production Issuer - for production certificates
+  # Use this issuer for production environments with real domains
   - apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
     metadata:
@@ -29,37 +32,46 @@ extraObjects:
           - http01:
               ingress:
                 class: nginx
-  # My issuer
+
+  # Root CA Issuer - creates the root certificate authority
+  # This self-signed issuer generates the root CA certificate (root-ca)
+  # It's the foundation that signs all internal certificates
   - apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
     metadata:
-      name: selfsigned-issuer
+      name: root-ca-issuer
     spec:
       selfSigned: {}
 
+  # Root CA Certificate - the root certificate authority
+  # This certificate acts as the root CA for all internal certificates
+  # It's stored in root-ca-secret and used by internal-ca-issuer to sign other certificates
   - apiVersion: cert-manager.io/v1
     kind: Certificate
     metadata:
-      name: my-ca
+      name: root-ca
       namespace: cert-manager
     spec:
       isCA: true
-      commonName: my-ca
-      secretName: my-ca-secret # the secret of where the root CA will be stored
+      commonName: root-ca
+      secretName: root-ca-secret # Secret where the root CA certificate is stored
       privateKey:
         algorithm: ECDSA
         size: 256
       issuerRef:
-        name: selfsigned-ca-issuer
+        name: root-ca-issuer
         kind: ClusterIssuer
 
+  # Internal CA Issuer - issues certificates for internal services
+  # This issuer uses the root CA certificate to sign certificates for internal services
+  # Use this issuer for Vault, databases, and other internal Kubernetes services
   - apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
     metadata:
-      name: my-ca-issuer
+      name: internal-ca-issuer
     spec:
       ca:
-        secretName: my-ca-secret
+        secretName: root-ca-secret
 
 resources:
   requests:
