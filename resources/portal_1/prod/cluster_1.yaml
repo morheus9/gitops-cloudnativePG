@@ -4,7 +4,7 @@ metadata:
   name: myapp-db
   namespace: portal-1-prod
 spec:
-  instances: 1
+  instances: 3
 
   imageName: ghcr.io/cloudnative-pg/postgresql:16.2
 
@@ -12,7 +12,7 @@ spec:
     size: 50Gi
     # For local deployment, use empty string to use default storage class
     # For production, specify your storage class: fast-ssd, ssd, etc.
-    storageClass: "standard"  # Specify storage class explicitly due to local-path provisioner issues
+    storageClass: "standard" # Specify storage class explicitly due to local-path provisioner issues
 
   resources:
     requests:
@@ -38,6 +38,7 @@ spec:
     parameters:
       shared_buffers: "512MB"
       max_connections: "200"
+
 #  nodeSelector:
 #    workload: postgres
 
