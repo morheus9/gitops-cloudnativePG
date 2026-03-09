@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/morheus9/gitops-cloudnativePG
     targetRevision: HEAD
-    path: apps/portal_1/prod
+    path: resources/portal_1/prod
   destination:
     server: https://kubernetes.default.svc
     namespace: portal-1-prod
