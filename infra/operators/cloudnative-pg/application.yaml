@@ -4,7 +4,7 @@ metadata:
   name: cloudnative-pg
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1" # After cert-manager, independent operator
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: infra
   source:
@@ -17,3 +17,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: cnpg-system
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true

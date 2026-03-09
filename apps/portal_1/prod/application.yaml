@@ -4,7 +4,7 @@ metadata:
   name: portal-1-prod
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "3"  # After infrastructure operators
+    argocd.argoproj.io/sync-wave: "3" # After infrastructure operators
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
@@ -20,5 +20,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true

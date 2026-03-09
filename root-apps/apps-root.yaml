@@ -4,7 +4,7 @@ metadata:
   name: apps-root
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"  # Root app - discovers applications before they deploy
+    argocd.argoproj.io/sync-wave: "2" # Root app - discovers applications before they deploy
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
