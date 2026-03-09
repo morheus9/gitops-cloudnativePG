@@ -7,6 +7,10 @@ spec:
   description: Infrastructure operators
   sourceRepos:
   - 'https://github.com/morheus9/gitops-cloudnativePG'
+  - 'https://charts.jetstack.io'
+  - 'https://cloudnative-pg.github.io/charts'
+  - 'https://charts.external-secrets.io'
+  - 'https://helm.releases.hashicorp.com'
   destinations:
   - namespace: '*'
     server: https://kubernetes.default.svc
