@@ -4,8 +4,8 @@ metadata:
   name: myapp-db
   namespace: portal-1-prod
 spec:
-  instances: 3
-
+  instances: 1
+  #instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:16.2
 
   storage:
