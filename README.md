@@ -7,12 +7,14 @@
 - Kubernetes cluster is running
 - `kubectl` configured to access the cluster
 
+> **Note:** The `--server-side --force-conflicts` flags are required for ArgoCD v3.x due to large CRD annotations that exceed the client-side apply limit (262144 bytes). Server-side apply handles this correctly.
+
 ### Installation Steps
 
 ```bash
 # 1. Install ArgoCD
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply --server-side --force-conflicts -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # 2. Wait for ArgoCD to be ready
 kubectl wait --for=condition=available --timeout=600s deployment/argocd-server -n argocd
